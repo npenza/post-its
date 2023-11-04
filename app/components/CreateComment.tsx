@@ -27,7 +27,7 @@ export default function CreateComment({ postId }: { postId: string }) {
     {
       onError: (error) => {
         if (error instanceof AxiosError) {
-            console.log(error)
+          console.log(error);
           toast.error(error?.response?.data.message, { id: toastPostId });
         }
         setIsDisabled(false);

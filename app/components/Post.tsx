@@ -3,9 +3,20 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Post({ avatar, name, postTitle, id, comments }) {
+export default function Post({
+  avatar,
+  name,
+  postTitle,
+  id,
+  comments,
+  singlePost,
+}) {
   return (
-    <div className="bg-neutral-700 my-8 p-8 rounded-lg">
+    <div
+      className={`bg-neutral-700 ${
+        singlePost ? "my-0 rounded-t-lg" : "my-8 rounded-lg"
+      } p-8 `}
+    >
       <div className="flex items-center gap-2">
         <Image
           className="rounded-full"

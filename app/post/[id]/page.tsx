@@ -5,6 +5,7 @@ import CreateComment from "@/app/components/CreateComment";
 import Post from "@/app/components/Post";
 import { PostType } from "@/app/types/Post";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
 // Fetch post
@@ -21,7 +22,7 @@ export default function Page({ params }: { params: { id: string } }) {
     () => fetchPostById(params.id),
     {
       queryKey: [params.id], // Define queryKey as an option within an object
-    }
+    },
   );
 
   if (error) {
@@ -32,7 +33,8 @@ export default function Page({ params }: { params: { id: string } }) {
     return "Loading....";
   }
 
-  console.log(data)
+
+
 
   return (
     <div>
@@ -43,12 +45,20 @@ export default function Page({ params }: { params: { id: string } }) {
         avatar={data.user.image}
         postTitle={data.title}
         comments={data.comments}
+        singlePost={true}
       />
-      {
-        data?.comments?.map((comment) => (
-          <CommentPost message={comment.message} name={comment.user.name} avatar={comment.user.image} />
-        ))
-      }
+      {data?.comments.length > 0 && (
+        <div className="bg-neutral-800 rounded-b-lg p-2">
+          {data?.comments?.map((comment) => (
+            <CommentPost
+              message={comment.message}
+              name={comment.user.name}
+              avatar={comment.user.image}
+            />
+          ))}
+        </div>
+      )}
+
       <CreateComment postId={params.id} />
     </div>
   );

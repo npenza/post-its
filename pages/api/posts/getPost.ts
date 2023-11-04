@@ -18,7 +18,7 @@ export default async function handler(
           user: true,
           comments: {
             include: {
-              user: true, 
+              user: true,
             },
           },
         },

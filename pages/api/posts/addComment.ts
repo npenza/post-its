@@ -25,8 +25,8 @@ export default async function handler(
     const comment = req.body.comment;
     const postId = req.body.postId;
 
-    console.log("comment:" , comment)
-    console.log("postId:" , postId)
+    console.log("comment:", comment);
+    console.log("postId:", postId);
 
     // Get Post
     const post = await prisma.post.findUnique({
