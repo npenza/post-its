@@ -2,7 +2,13 @@ import React from "react";
 
 import Image from "next/image";
 
-export default function CommentPost({ message, name, avatar }) {
+interface CommentPostProps{
+  message : string
+  name : string
+  avatar : string
+}
+
+export default function CommentPost({ message, name, avatar }:CommentPostProps) {
   return (
     <div className="bg-neutral-700 my-4 p-4 rounded-lg">
       <div className="flex items-center gap-2">

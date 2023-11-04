@@ -5,7 +5,6 @@ import CreateComment from "@/app/components/CreateComment";
 import Post from "@/app/components/Post";
 import { PostType } from "@/app/types/Post";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
 // Fetch post
@@ -32,9 +31,6 @@ export default function Page({ params }: { params: { id: string } }) {
   if (isLoading) {
     return "Loading....";
   }
-
-
-
 
   return (
     <div>

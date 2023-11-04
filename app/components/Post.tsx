@@ -3,6 +3,15 @@
 import Image from "next/image";
 import Link from "next/link";
 
+interface PostProps{
+  avatar : string,
+  name : string,
+  postTitle : string
+  id : string
+  comments : any
+  singlePost : boolean
+}
+
 export default function Post({
   avatar,
   name,
@@ -10,7 +19,7 @@ export default function Post({
   id,
   comments,
   singlePost,
-}) {
+}:PostProps ) {
   return (
     <div
       className={`bg-neutral-700 ${
@@ -30,13 +39,15 @@ export default function Post({
       <div className="my-8">
         <p className="break-all text-white">{postTitle}</p>
       </div>
-      <div className="flex gap-4 cursor-pointer items-center">
-        <Link href={`/post/${id}`}>
-          <p className="text-sm font-bold text-gray-200">
-            {comments?.length} Comments
-          </p>
-        </Link>
-      </div>
+      {!singlePost && (
+        <div className="flex cursor-pointer items-center -ml-2">
+          <Link href={`/post/${id}`}>
+            <p className="text-sm font-bold text-gray-200 hover:bg-neutral-600 rounded-lg p-2 transition-none ease-in duration-100">
+              {comments?.length}  {comments?.length == 1  ? "Comment" : "Comments"} 
+            </p>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
