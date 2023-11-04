@@ -26,7 +26,6 @@ export default function EditPost({
   comments,
   id,
 }: EditProps) {
-
   //Toggle Delete
   const [toggle, setToggle] = useState(false);
   let toastPostId: string;
@@ -56,21 +55,27 @@ export default function EditPost({
 
   return (
     <>
-      <div className="bg-white my-8 py-8 rounded-lg">
+      <div className="bg-neutral-700 my-8 py-8 px-4 rounded-lg">
         <div className="flex items-center gap-2">
-          <Image width={32} height={32} src={avatar} alt="avatar" />
-          <h3 className="font-bold text-gray-700">{name}</h3>
+          <Image
+            width={32}
+            height={32}
+            src={avatar}
+            alt="avatar"
+            className="rounded-full"
+          />
+          <h3 className="font-bold text-white">{name}</h3>
         </div>
         <div className="my-8">
-          <p className="break-all">{title}</p>
+          <p className="break-all text-white">{title}</p>
         </div>
         <div className="flex items-center gap-4">
-          <p className="text-sm font-bold text-gray-700">
+          <p className="text-sm font-bold text-gray-200">
             {comments?.length} Comments
           </p>
           <button
             onClick={() => setToggle(true)}
-            className="text-sm font-bold bg-red-500"
+            className="text-sm font-bold bg-red-500  rounded-md px-4 py-2 text-white"
           >
             Delete
           </button>

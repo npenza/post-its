@@ -34,7 +34,7 @@ export default function Home() {
           <Post
             key={post.id}
             id={post.id}
-            name={post.name}
+            name={post.user.name}
             avatar={post.user.image}
             postTitle={post.title}
             comments={post.comments}
