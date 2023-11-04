@@ -3,6 +3,8 @@
 import axios from "axios";
 import CreatePost from "./components/CreatePost";
 import { useQuery } from "react-query";
+import Post from "./components/Post";
+import { PostType } from "./types/Post";
 
 // Fetch all post
 const allPosts = async () => {
@@ -11,7 +13,7 @@ const allPosts = async () => {
 };
 
 export default function Home() {
-  const { data, error, isLoading } = useQuery({
+  const { data, error, isLoading } = useQuery<PostType[]>({
     queryFn: allPosts,
     queryKey: ["posts"],
   });
@@ -25,11 +27,19 @@ export default function Home() {
   }
 
   if (data) {
-    console.log(data);
-
     return (
       <main>
         <CreatePost />
+        {data?.map((post) => (
+          <Post
+            key={post.id}
+            id={post.id}
+            name={post.name}
+            avatar={post.user.image}
+            postTitle={post.title}
+            comments={post.Comment}
+          />
+        ))}
       </main>
     );
   }

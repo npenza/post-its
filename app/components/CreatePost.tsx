@@ -3,14 +3,24 @@
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 export default function CreatePost() {
   const [title, setTitle] = useState<string>("");
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   let toastPostId: string;
+  const queryClient = useQueryClient();
 
-  //Create a post
+  // Submit post
+  const submitPost = async (e: React.FormEvent) => {
+    e.preventDefault();
+    toastPostId = toast.loading("Creating your post", { id: toastPostId });
+    setIsDisabled(true);
+    mutate(title);
+    setIsDisabled(false);
+  };
+
+  // Create a post via API
   const { mutate } = useMutation(
     async (title: string) => await axios.post("api/posts/addPost", { title }),
     {
@@ -22,20 +32,13 @@ export default function CreatePost() {
       },
       onSuccess: (data) => {
         toast.success("Post has been made!", { id: toastPostId });
+        // Invalidate the cache for "posts" query
+        queryClient.invalidateQueries("posts");
         setTitle("");
         setIsDisabled(false);
       },
     },
   );
-
-  // Submit post
-  const submitPost = async (e: React.FormEvent) => {
-    e.preventDefault();
-    toastPostId = toast.loading("Creating your post", { id: toastPostId });
-    setIsDisabled(true);
-    mutate(title);
-    setIsDisabled(false);
-  };
 
   return (
     <form onSubmit={submitPost} className="bg-white my-8 p-8 rounded-md">
