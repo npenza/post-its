@@ -1,5 +1,7 @@
-"use client"
+"use client";
 
+import CommentPost from "@/app/components/CommentPost";
+import CreateComment from "@/app/components/CreateComment";
 import Post from "@/app/components/Post";
 import { PostType } from "@/app/types/Post";
 import axios from "axios";
@@ -7,25 +9,30 @@ import { useQuery } from "react-query";
 
 // Fetch post
 const fetchPostById = async (id: string) => {
-  const response = await axios.get("/api/posts/getPost", { params: { id : id } });
-  
+  const response = await axios.get("/api/posts/getPost", {
+    params: { id: id },
+  });
   return response.data;
 };
 
 export default function Page({ params }: { params: { id: string } }) {
   const { data, error, isLoading } = useQuery<PostType>(
-    ['post', params.id],
-    () => fetchPostById(params.id)
+    ["post", params.id],
+    () => fetchPostById(params.id),
+    {
+      queryKey: [params.id], // Define queryKey as an option within an object
+    }
   );
 
   if (error) {
-    console.log(error)
     return error;
   }
 
   if (isLoading) {
     return "Loading....";
   }
+
+  console.log(data)
 
   return (
     <div>
@@ -37,6 +44,12 @@ export default function Page({ params }: { params: { id: string } }) {
         postTitle={data.title}
         comments={data.comments}
       />
+      {
+        data?.comments?.map((comment) => (
+          <CommentPost message={comment.message} name={comment.user.name} avatar={comment.user.image} />
+        ))
+      }
+      <CreateComment postId={params.id} />
     </div>
   );
 }

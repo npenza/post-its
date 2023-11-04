@@ -16,7 +16,11 @@ export default async function handler(
         },
         include: {
           user: true,
-          comments: true,
+          comments: {
+            include: {
+              user: true, 
+            },
+          },
         },
       });
       res.status(200).json(data);
