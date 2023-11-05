@@ -69,60 +69,65 @@ export default function Home() {
   return (
     <main>
       <CreatePost />
-      <div className="flex flex-row bg-neutral-700  rounded-md items-center justify-evenly">
+      <div className="flex flex-row bg-neutral-700 rounded-md items-center justify-evenly">
         <button
           onClick={() => handleTabChange("For You")}
-          className={`tab-button  text-white p-3 duration-100 flex-1 text-lg ${
+          className={`tab-button text-white p-3 rounded-md duration-100 flex-1 text-lg ${
             activeTab === "For You"
-              ? "active bg-neutral-600 rounded-md font-bold"
-              : ""
+              ? "active bg-neutral-600  font-bold"
+              : "hover:bg-neutral-600 "
           }`}
         >
           For You
         </button>
         <button
           onClick={() => handleTabChange("Following")}
-          className={`tab-button  text-white p-3 duration-100 flex-1 text-lg ${
+          className={`tab-button text-white p-3 rounded-md duration-100 flex-1 text-lg ${
             activeTab === "Following"
-              ? "active bg-neutral-600 rounded-md font-bold"
-              : ""
+              ? "active bg-neutral-600  font-bold"
+              : "hover:bg-neutral-500"
           }`}
         >
           Following
         </button>
       </div>
-      {activeTab === "For You" && postData && (
-        <>
-          {postData.map((post) => (
-            <Post
-              key={post.id}
-              id={post.id}
-              name={post.user.name}
-              avatar={post.user.image}
-              postTitle={post.title}
-              comments={post.comments}
-              userId={post.user.id}
-              currentUser={userData ? userData : null}
-            />
-          ))}
-        </>
-      )}
-      {activeTab === "Following" && followingPostData && (
-        <>
-          {followingPostData.map((post) => (
-            <Post
-              key={post.id}
-              id={post.id}
-              name={post.user.name}
-              avatar={post.user.image}
-              postTitle={post.title}
-              comments={post.comments}
-              userId={post.user.id}
-              currentUser={userData ? userData : null}
-            />
-          ))}
-        </>
-      )}
+      <div className={`opacity-0 transition-opacity duration-200 ${activeTab === "For You" ? 'opacity-100' : ''}`}>
+        {activeTab === "For You" && postData && (
+          <>
+            {postData.map((post) => (
+              <Post
+                key={post.id}
+                id={post.id}
+                name={post.user.name}
+                avatar={post.user.image}
+                postTitle={post.title}
+                comments={post.comments}
+                userId={post.user.id}
+                currentUser={userData ? userData : null}
+              />
+            ))}
+          </>
+        )}
+      </div>
+      <div className={`opacity-0 transition-opacity duration-200 ${activeTab === "Following" ? 'opacity-100' : ''}`}>
+        {activeTab === "Following" && followingPostData && (
+          <>
+            {followingPostData.map((post) => (
+              <Post
+                key={post.id}
+                id={post.id}
+                name={post.user.name}
+                avatar={post.user.image}
+                postTitle={post.title}
+                comments={post.comments}
+                userId={post.user.id}
+                currentUser={userData ? userData : null}
+              />
+            ))}
+          </>
+        )}
+      </div>
     </main>
   );
+  
 }
