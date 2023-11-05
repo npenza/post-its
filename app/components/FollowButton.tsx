@@ -1,10 +1,11 @@
 import axios, { AxiosError } from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 export default function FollowButton({ userId, currentUser }) {
   const [following, setFollowing] = useState(false);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (currentUser?.id === userId) {
@@ -25,10 +26,10 @@ export default function FollowButton({ userId, currentUser }) {
     try {
       await axios.post("/api/users/followUser", { id: userId });
       toast.success("Followed!", { id: toastPostId });
+      queryClient.invalidateQueries("follow-posts");
       setFollowing(true);
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.log(error);
         toast.error("Could not follow user", { id: toastPostId });
       }
     }
