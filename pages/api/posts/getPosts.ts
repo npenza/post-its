@@ -17,6 +17,12 @@ export default async function handler(
           createdAt: "desc",
         },
       });
+
+      if (data.length === 0) {
+        // Return an empty response with a 200 status code
+        return res.status(200).json([]);
+      }
+
       res.status(200).json(data);
     } catch (err) {
       res.status(403).json({ err: "Error while fetching posts." });

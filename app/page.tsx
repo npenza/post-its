@@ -12,25 +12,43 @@ const allPosts = async () => {
   return response.data;
 };
 
+const currentUser = async () => {
+  const response = await axios.get("/api/users/getUser");
+  return response.data;
+};
+
 export default function Home() {
-  const { data, error, isLoading } = useQuery<PostType[]>({
+  const {
+    data: postData,
+    error: postError,
+    isLoading: postIsLoading,
+  } = useQuery<PostType[]>({
     queryFn: allPosts,
     queryKey: ["posts"],
   });
 
-  if (error) {
-    return error;
+  const {
+    data: userData,
+    error: userError,
+    isLoading: userIsLoading,
+  } = useQuery({
+    queryFn: currentUser,
+    queryKey: ["current-user"],
+  });
+
+  if (postError) {
+    return "Error";
   }
 
-  if (isLoading) {
+  if (postIsLoading && userIsLoading) {
     return "Loading....";
   }
 
-  if (data) {
+  if (postData) {
     return (
       <main>
         <CreatePost />
-        {data?.map((post) => (
+        {postData?.map((post) => (
           <Post
             key={post.id}
             id={post.id}
@@ -38,6 +56,8 @@ export default function Home() {
             avatar={post.user.image}
             postTitle={post.title}
             comments={post.comments}
+            userId={post.user.id}
+            currentUser={userData ? userData : null}
           />
         ))}
       </main>

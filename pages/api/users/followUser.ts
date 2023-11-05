@@ -14,39 +14,37 @@ export default async function handler(
     if (!session) {
       return res
         .status(401)
-        .json({ message: "Please sign in to make a post." });
+        .json({ message: "Please sign in to follow a user." });
     }
 
-    // Get User
+    // Get current user
     const prismaUser = await prisma.user.findUnique({
       where: { email: session?.user?.email },
     });
 
-    const comment = req.body.comment;
-    const postId = req.body.postId;
-
-    // Get Post
-    const post = await prisma.post.findUnique({
-      where: { id: postId },
+    //get user to be followed
+    const followingUserID = req.body.id;
+    const prismaFollowingUser = await prisma.user.findUnique({
+      where: { id: followingUserID },
     });
 
-    // Check comment length
-    if (comment.length > 300)
-      return res.status(403).json({ message: "Please write a shorter post" });
-    if (comment.length == 0)
-      return res.status(403).json({ message: "Please write a post" });
-
-    if (!post) {
-      return res.status(403).json({ message: "Post does not exist" });
+    if (!prismaFollowingUser) {
+      res.status(403).json({ err: "User not found." });
     }
 
-    // Create comment
+    // TODO: Check user isn't already following
+
+    // Check user ins't trying to follow themself
+    if (prismaUser?.id === prismaFollowingUser?.id) {
+      res.status(403).json({ err: "You cannot follow yourself." });
+    }
+
+    // Create connection
     try {
-      const result = await prisma.comment.create({
+      const result = await prisma.follows.create({
         data: {
-          message: comment,
-          userId: prismaUser.id,
-          postId: postId,
+          followerId: prismaUser?.id,
+          followingId: prismaFollowingUser?.id,
         },
       });
 
