@@ -8,9 +8,11 @@ type User = {
   image: string;
 };
 
+// Component for when a user is logged in
 export default function Logged({ image }: User) {
   return (
     <li className="flex gap-8 items-center">
+      {/* Log out button via next/auth */}
       <button
         onClick={() => signOut()}
         className="bg-gray-700 text-white text-sm px-6 py-2 rounded-md"
@@ -18,6 +20,7 @@ export default function Logged({ image }: User) {
         Sign Out
       </button>
       <Link href={"/dashboard"}>
+      {/* User Image */}
         <Image
           width={64}
           height={64}

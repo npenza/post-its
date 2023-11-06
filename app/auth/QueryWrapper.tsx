@@ -10,6 +10,7 @@ interface Props {
 
 const queryClient = new QueryClient();
 
+// Query wrapper to use React Query & Toaster notifications throughout the webapp
 const QueryWrapper = ({ children }: Props) => {
   return (
     <QueryClientProvider client={queryClient}>

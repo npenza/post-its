@@ -91,7 +91,11 @@ export default function Home() {
           Following
         </button>
       </div>
-      <div className={`opacity-0 transition-opacity duration-200 ${activeTab === "For You" ? 'opacity-100' : ''}`}>
+      <div
+        className={`opacity-0 transition-opacity duration-200 ${
+          activeTab === "For You" ? "opacity-100" : ""
+        }`}
+      >
         {activeTab === "For You" && postData && (
           <>
             {postData.map((post) => (
@@ -109,7 +113,11 @@ export default function Home() {
           </>
         )}
       </div>
-      <div className={`opacity-0 transition-opacity duration-200 ${activeTab === "Following" ? 'opacity-100' : ''}`}>
+      <div
+        className={`opacity-0 transition-opacity duration-200 ${
+          activeTab === "Following" ? "opacity-100" : ""
+        }`}
+      >
         {activeTab === "Following" && followingPostData && (
           <>
             {followingPostData.map((post) => (
@@ -129,5 +137,4 @@ export default function Home() {
       </div>
     </main>
   );
-  
 }

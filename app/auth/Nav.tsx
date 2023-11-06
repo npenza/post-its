@@ -5,6 +5,7 @@ import { authOptions } from "../../pages/api/auth/[...nextauth]";
 import Logged from "./Logged";
 import Image from "next/image";
 
+// Navbar which uses server session to conditionally render sign in/out button
 export default async function Nav() {
   const session = await getServerSession(authOptions);
 

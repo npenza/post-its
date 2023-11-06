@@ -23,6 +23,7 @@ export default async function handler(
         where: { email: session.user.email },
         include: {
           following: true, // Include the following relationship
+          followers: true,
         },
       });
 
